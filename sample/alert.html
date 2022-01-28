@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>alert</title>
+    </head>
+    <script>
+        console.log("console.log:step 1 [before]");
+        window.alert("alert1");
+        console.log("console.log:step 1 [after]");
+    </script>
+    <body>
+        <p>over</p>
+        <script>
+            console.log("console.log:step 2 [before]");
+            window.alert("alert2");
+            console.log("console.log:step 2 [after]");
+        </script>
+        <p>center</p>
+        <script>
+            console.log("console.log:step 3 [before]");
+            window.alert("alert3");
+            console.log("console.log:step 3 [after]");
+        </script>
+        <p>under</p>
+    </body>
+</html>

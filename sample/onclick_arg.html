@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>function/onclick/argument</title>
+
+        <script>
+            function add(_x, _y) {
+                return _x + _y;
+            }
+
+            function calc(_x, _y) {
+                var ans = add(_x, _y);
+
+                window.alert("ans=" + ans);
+            }
+
+            var _x = 10,
+                _y = 22;
+
+            window.onload = function () {
+                var btn = document.getElementById("Button_01");
+
+                btn.onclick = function () {
+                    calc(_x, _y);
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <p>下のボタンを押してください</p>
+        <button id="Button_01">ボタン</button>
+    </body>
+</html>

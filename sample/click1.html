@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>click1</title>
+    </head>
+
+    <body>
+        <p id="Paragraph-01">下のボタンを押してください</p>
+
+        <button id="ButtonId00">押してください</button>
+
+        <script>
+            var btn = document.getElementById("ButtonId00");
+
+            btn.onclick = function () {
+                window.alert("btn.onclick");
+            };
+
+            btn.addEventListener("click", function () {
+                window.alert("btn.addEventListener");
+            });
+
+            console.log(btn);
+
+            console.log(document.getElementById("Paragraph-01"));
+        </script>
+    </body>
+</html>

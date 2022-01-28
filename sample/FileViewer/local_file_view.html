@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>local file. view.</title>
+
+        <script>
+            function info(_element, _txt) {
+                var dat = _element;
+
+                _txt += "<hr>";
+
+                for (i = 0; i < dat.length; ++i) {
+                    _txt += "name:" + dat[i].name + "<br>";
+
+                    _txt += "size:" + dat[i].size + "bytes<br>";
+
+                    _txt += "type:" + dat[i].type + "<br>";
+
+                    _txt += "Mod.:" + dat[i].lastModifiedDate + "<br>";
+
+                    _txt +=
+                        "Mod.(1970/1/1からの経過ミリ秒):" +
+                        dat[i].lastModified +
+                        "<br>";
+
+                    _txt += "<hr>";
+                }
+
+                return _txt;
+            }
+
+            window.onload = function () {
+                var eDispInfo = document.getElementById("disp_info"),
+                    eDispTxt = document.getElementById("disp_txt"),
+                    eDispImg = document.getElementById("disp_img"),
+                    eSelectText = document.getElementById("select_text"),
+                    eSelectImage = document.getElementById("select_binary"),
+                    eRead = document.getElementById("read_button"),
+                    frTxt = new FileReader(),
+                    frImg = new FileReader();
+
+                eRead.onclick = function () {
+                    var log = "";
+
+                    var texts = eSelectText.files;
+
+                    var images = eSelectImage.files;
+
+                    log = info(texts, log);
+
+                    log = info(images, log);
+
+                    eDispInfo.innerHTML = log;
+
+                    for (i = 0; i < texts.length; ++i) {
+                        frTxt.readAsText(texts[i]);
+                    }
+
+                    for (i = 0; i < images.length; ++i) {
+                        frImg.readAsDataURL(images[i]);
+                    }
+                };
+
+                frTxt.onload = function (_event) {
+                    eDispTxt.innerHTML = "<hr>" + _event.target.result + "<hr>";
+                };
+
+                frImg.onload = function (_event) {
+                    eDispImg.src = _event.target.result;
+                };
+
+                frTxt.onerror = function (_arg) {
+                    window.alert("読み込み失敗。" + _arg.target.error.message);
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <p>
+            text : <input type="file" id="select_text" /><br />
+
+            image:<input type="file" id="select_binary" /><br />
+        </p>
+
+        <button id="read_button">読込</button>
+
+        <br /><br />
+
+        result<br />
+
+        <div><p id="disp_info"></p></div>
+
+        <div><pre id="disp_txt">テキスト表示</pre></div>
+
+        <div><img id="disp_img" /></div>
+    </body>
+</html>

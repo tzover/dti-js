@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>Observer Input</title>
+
+        <script>
+            window.onload = function () {
+                var eKey = document.getElementById("input_Key"),
+                    eValue = document.getElementById("input_Value"),
+                    eRec = document.getElementById("record_Button"),
+                    eDelKey = document.getElementById("delete_Key"),
+                    eDelBtn = document.getElementById("delete_Button"),
+                    eClear = document.getElementById("clear_Button");
+
+                eRec.onclick = function () {
+                    var key = eKey.value,
+                        val = eValue.value;
+
+                    if ("" == key || "" == val) {
+                        window.alert("キーと値のどちらかが未入力です。");
+                        return;
+                    }
+
+                    localStorage.setItem(key, val);
+                };
+
+                eDelBtn.onclick = function () {
+                    localStorage.removeItem(eDelKey.value);
+                };
+
+                eClear.onclick = function () {
+                    localStorage.clear();
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <h3>登録</h3>
+
+        <p>
+            キー名:<input type="text" id="input_Key" />
+
+            値: <input type="text" id="input_Value" />
+
+            <button id="record_Button">Web Strageに記録</button>
+        </p>
+
+        <hr />
+
+        <h3>指定キーを削除</h3>
+
+        <p>
+            キー名:<input type="text" id="delete_Key" />
+
+            <button id="delete_Button">このキーを削除</button>
+        </p>
+
+        <hr />
+
+        <h3>すべて削除</h3>
+
+        <p>
+            <button id="clear_Button">全削除</button>
+        </p>
+    </body>
+</html>

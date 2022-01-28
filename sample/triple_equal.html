@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>triple equal</title>
+
+        <style type="text/css">
+            td {
+                background-color: #bde9ba;
+                text-align: right;
+            }
+
+            h5.true {
+                color: blue;
+            }
+
+            h5.false {
+                color: red;
+            }
+        </style>
+
+        <script>
+            var text = "";
+
+            function judge(_result) {
+                var result_text = "";
+
+                result_text =
+                    true === _result
+                        ? '<h5 class="true">'
+                        : '<h5 class="false">';
+
+                result_text += String(_result) + "</h5>";
+
+                return result_text;
+            }
+
+            function check(_No, _v1, _v2) {
+                text += "<tr>";
+
+                text += "<td>" + String(_No) + "</td>";
+
+                text += "<td>" + judge(_v1 === _v2) + "</td>";
+
+                text += "<td>" + judge(_v1 == _v2) + "</td>";
+
+                text += "</tr>";
+            }
+
+            function header() {
+                text += "<table><tr><td>No.</td><td>===</td><td>==</td></tr>";
+            }
+
+            function footer() {
+                text += "</table>";
+
+                document.getElementById("ParagraphId").innerHTML = text;
+            }
+
+            onload = function () {
+                header();
+
+                check(1, "5", "5");
+
+                check(2, "5", 5);
+
+                check(3, "true", true);
+
+                check(4, "true", 1);
+
+                check(5, true, 1);
+
+                footer();
+                header();
+
+                check(6, true, 2);
+
+                check(7, false, 0);
+
+                check(8, false, -1);
+
+                check(9, 100, "100");
+
+                check(10, "1.00e2", 100);
+
+                footer();
+                header();
+
+                check(11, [10, 20], [10, 20]);
+
+                check(12, "0x10", 16);
+
+                check(13, 0o10, 8);
+
+                check(14, "0b1010", 10);
+
+                check(15, "0x0f", 0b1111);
+
+                footer();
+                header();
+
+                var data = 10;
+
+                check(16, data, data);
+
+                check(17, this.data, data);
+
+                check(18, window.data, this.data);
+
+                check(19, this.text, text);
+
+                check(20, text, window.text);
+
+                footer();
+            };
+        </script>
+    </head>
+
+    <body>
+        <p id="ParagraphId">result</p>
+    </body>
+</html>

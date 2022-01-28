@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>drag and drop</title>
+
+        <style>
+            #_region-A_,
+            #_region-B_ {
+                width: 500px;
+
+                height: 250px;
+
+                padding: 10px;
+
+                border: 1px solid #aaaaaa;
+            }
+        </style>
+
+        <script>
+            function drop(_arg) {
+                try {
+                    _arg.preventDefault();
+
+                    var ele = document.getElementById(
+                        _arg.dataTransfer.getData("_drag-id_")
+                    );
+
+                    _arg.target.appendChild(ele);
+
+                    ele.style.color = "#000000";
+                } catch (_e) {
+                    //
+                }
+            }
+
+            function drag_over(_arg) {
+                try {
+                    _arg.preventDefault(); // default動作のcancel
+                } catch (_e) {
+                    //
+                }
+            }
+
+            window.onload = function () {
+                var eRegionA = document.getElementById("_region-A_");
+
+                var eRegionB = document.getElementById("_region-B_");
+
+                var eText = document.getElementById("_text_");
+
+                var eImage = document.getElementById("_image_");
+
+                eText.ondragstart = function (_arg) {
+                    _arg.dataTransfer.setData("_drag-id_", _arg.target.id);
+
+                    _arg.target.style.color = "#0000aa";
+                };
+
+                eImage.ondragstart = function (_arg) {
+                    _arg.dataTransfer.setData("_drag-id_", _arg.target.id);
+                };
+
+                eRegionA.ondragover = function (_arg) {
+                    drag_over(_arg);
+                };
+
+                eRegionB.ondragover = function (_arg) {
+                    drag_over(_arg);
+                };
+
+                eRegionA.ondrop = function (_arg) {
+                    drop(_arg);
+                };
+
+                eRegionB.ondrop = function (_arg) {
+                    drop(_arg);
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <h1>Region A</h1>
+
+        <div id="_region-A_">
+            <span id="_text_" draggable="true"
+                >このnodeはdragで移動できます。</span
+            >
+        </div>
+
+        <div id="_region-B_">
+            <h1>Region B</h1>
+        </div>
+
+        <!-- "img"タグでは移動不可。divで囲み"img"をdraggable = false,"div"/"span"をdraggable = trueにする -->
+
+        <span id="_image_" draggable="true"
+            ><img src="./test.jpg" draggable="false"
+        /></span>
+    </body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>webstorage</title>
+
+        <script>
+            storage = sessionStorage;
+
+            window.onload = function () {
+                var eKey = document.getElementById("keyId"),
+                    eValue = document.getElementById("valueId"),
+                    eRec = document.getElementById("recordId"),
+                    eRem1 = document.getElementById("remove1Id"),
+                    eRemAll = document.getElementById("removeAllId"),
+                    eSearch = document.getElementById("searchId"),
+                    eDisp = document.getElementById("dispId");
+
+                dispInfo();
+
+                function dispInfo(_key) {
+                    var text = "";
+
+                    if (typeof _key === "undefined") {
+                        text =
+                            storage.length + "個のデータが記録されています。";
+
+                        for (i = 0; i < storage.length; ++i) {
+                            text +=
+                                "<br>" +
+                                storage.key(i) +
+                                " - " +
+                                storage.getItem(storage.key(i));
+                        }
+
+                        eDisp.innerHTML = text;
+                    } else {
+                        var value = storage.getItem(_key);
+
+                        if (value === null) {
+                            text = "は WebStrage にありません。<br>";
+                        } else {
+                            text = "の値は " + value + "。<br>";
+                        }
+
+                        eDisp.innerHTML = "Key:" + eKey.value + text;
+                    }
+                }
+
+                eRec.onclick = function () {
+                    var key = eKey.value,
+                        val = eValue.value;
+
+                    if ("" === key || "" === val) {
+                        window.alert("キーと値のどちらかが未入力です。");
+
+                        return;
+                    }
+
+                    storage.setItem(key, val);
+
+                    dispInfo();
+                };
+
+                eRem1.onclick = function () {
+                    storage.removeItem(eKey.value);
+
+                    dispInfo();
+                };
+
+                eRemAll.onclick = function () {
+                    storage.clear();
+
+                    dispInfo();
+                };
+
+                eSearch.onclick = function () {
+                    dispInfo(eKey.value);
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <table>
+            <tr>
+                <td>キー名:</td>
+                <td><input type="text" id="keyId" /><br /></td>
+            </tr>
+
+            <tr>
+                <td align="right">値:</td>
+                <td><input type="text" id="valueId" /><br /></td>
+            </tr>
+        </table>
+
+        <br />
+
+        <button id="recordId">Web Strageに記録</button>
+
+        <button id="remove1Id">1つ削除</button>
+
+        <button id="removeAllId">全削除</button>
+
+        <button id="searchId">検索(キー名)</button>
+
+        <br /><br />
+
+        <div id="dispId">結果表示部</div>
+    </body>
+</html>

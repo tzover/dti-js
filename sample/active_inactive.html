@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>active / inactive detection</title>
+    </head>
+    <script>
+        window.onload = function () {
+            let eDisp = document.getElementById("_disp_");
+
+            window.document.onvisibilitychange = function () {
+                let msg = "now:";
+
+                console.log(window.document.visibilityState);
+                msg +=
+                    window.document.visibilityState == "visible"
+                        ? "active"
+                        : "inactive";
+                msg += "<br />";
+                msg += window.document.hidden ? "隠れてる？" : "見えてる？";
+
+                console.log(msg);
+                eDisp.innerHTML = msg;
+            };
+        };
+    </script>
+    <body>
+        chromeの[F12]を押してconsole で確認。<br />
+        <div id="_disp_">開いた瞬間は onvisibilitychangeは反応しない</div>
+    </body>
+</html>

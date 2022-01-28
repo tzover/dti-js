@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>function/addEventListener</title>
+
+        <script>
+            window.addEventListener("load", function () {
+                var btn = document.getElementById("Button_01");
+
+                btn.addEventListener("click", buttonClick);
+            });
+
+            function buttonClick() {
+                window.alert("pushed button");
+
+                console.log("クリック");
+            }
+        </script>
+    </head>
+
+    <body>
+        <p>下のボタンを押してください</p>
+
+        <button id="Button_01">ボタン</button>
+    </body>
+</html>

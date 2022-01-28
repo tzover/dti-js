@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>array/object 2</title>
+
+        <script>
+            function obj2(_x, _y) {
+                this.x = _x;
+
+                this.y = _y;
+            }
+
+            function obj3(_x, _y, _z) {
+                this.x = _x;
+
+                this.y = _y;
+
+                this.z = _z;
+            }
+
+            window.onload = function () {
+                var _array = [];
+
+                _array[0] = new obj2(10, 20);
+
+                _array[2] = new obj3(11, 22, 33);
+
+                _array[0].z = 1000;
+
+                _array[1] = new obj2(100, 200);
+
+                _array[3] = _array[0];
+
+                console.log(_array);
+            };
+        </script>
+    </head>
+
+    <body>
+        <p>本文(未使用)</p>
+    </body>
+</html>

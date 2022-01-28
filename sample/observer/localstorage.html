@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>Observer[Web Storage/local storage]</title>
+
+        <script>
+            window.onload = function () {
+                function observ_Log(_ev) {
+                    if (_ev.oldValue != null && _ev.newValue != null) {
+                        return "⇒更新されました。<br>";
+                    }
+
+                    if (_ev.oldValue === null && _ev.newValue != null) {
+                        return "⇒新規エントリされました。<br>";
+                    }
+
+                    if (_ev.oldValue != null && _ev.newValue === null) {
+                        return "⇒削除されました。<br>";
+                    }
+
+                    if (_ev.oldValue === null && _ev.newValue === null) {
+                        return "⇒全て削除されました。<br>";
+                    }
+                }
+
+                window.onstorage = function (_event) {
+                    var text =
+                        "[報告]変化がありました。<br>" +
+                        _event.key +
+                        ":" +
+                        _event.newValue +
+                        " at " +
+                        _event.url +
+                        "type " +
+                        _event.storageArea +
+                        "<br>";
+
+                    document.getElementById("disp").innerHTML =
+                        text + observ_Log(_event) + "<br>";
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <h2>※別ウィンドウ推奨</h2>
+
+        <a href="./Observer_Input.html" target="_blank">入力ページ</a>
+
+        <br /><br />
+
+        <div id="disp">結果表示場所</div>
+    </body>
+</html>

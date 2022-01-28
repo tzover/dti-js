@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  learn-js:
+    image: learn-js-obj:1.0
+    container_name: learn-js-obj
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/home/app
+      # - ./app/public:/home/app/public
+      # - ./app/src:/home/app/src
+    ports:
+      - 7000:5500
+    tty: true
+    stdin_open: true

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>indexedDB</title>
+
+        <script>
+            var dbName = "test_DB";
+
+            var storeName = "store";
+
+            function init_db(_arg) {
+                var db = _arg.target.result;
+
+                db.createObjectStore(storeName, { keyPath: "id" });
+            }
+
+            function default_data(_arg) {
+                var debug_datas = [
+                    { id: 1, name: "伊弉諾尊", age: 3001 },
+
+                    { id: 2, name: "伊弉冉命", age: 3000 },
+
+                    { id: 3, name: "天照大御神", age: 2951, sex: "female" },
+
+                    { id: 4, name: "月詠命", age: 2950, sex: "male" },
+
+                    { id: 5, name: "素戔嗚尊", age: 2949, sex: "male" },
+                ];
+
+                var db = _arg.target.result;
+
+                var trs = db.transaction(storeName, "readwrite"); // 既存DB
+
+                var store = trs.objectStore(storeName);
+
+                for (var i in debug_datas) {
+                    put_rst = store.put(debug_datas[i]);
+
+                    put_rst.onsuccess = function () {
+                        console.log("[debug]" + i + "件目のデータ記録成功");
+                    };
+                }
+
+                for (i = 0; i < debug_datas.length; ++i) {}
+
+                trs.oncomplete = function () {
+                    console.log("トランザクション処理が完了");
+                };
+
+                db.close();
+            }
+
+            // DOM完了
+
+            window.onload = function () {
+                var eCreate = window.document.getElementById("_create_");
+
+                var eRegister = window.document.getElementById("_resister_");
+
+                var eDelete = window.document.getElementById("_delete_");
+
+                var openBtn = window.document.getElementById("_openBtn_");
+
+                var disp = window.document.getElementById("_disp_");
+
+                var delResult = window.document.getElementById("_delResult_");
+
+                eCreate.onclick = function (_event) {
+                    var req = window.indexedDB.open(dbName);
+
+                    req.onupgradeneeded = function (_event) {
+                        init_db(_event);
+                        console.log("-1-");
+                    };
+
+                    req.onsuccess = function (_event) {
+                        default_data(_event);
+                        console.log("-2-");
+                    };
+
+                    req.onerror = function (_event) {
+                        window.alert(_event.target.error);
+                    };
+                };
+
+                eDelete.onclick = function (_event) {
+                    del = window.indexedDB.deleteDatabase(dbName);
+
+                    del.onsuccess = function (event) {
+                        disp.innerHTML = "データベースが削除されました。";
+                    };
+
+                    del.onerror = function (event) {
+                        disp.innerHTML = "データベースの削除に失敗しました。";
+                    };
+                };
+
+                openBtn.onclick = function (event) {
+                    try {
+                        var req = window.indexedDB.open(dbName);
+
+                        req.onupgradeneeded = function (_event) {
+                            init_db(_event);
+                        };
+
+                        req.onsuccess = function (event) {
+                            var db = event.target.result;
+
+                            var trs = db.transaction(storeName, "readonly");
+
+                            var store = trs.objectStore(storeName);
+
+                            var results = store.getAll();
+
+                            results.onsuccess = function (event) {
+                                console.log(event.target.result);
+
+                                arrResult = event.target.result;
+
+                                strTable =
+                                    "<table border='0'><tr><td>id</td><td>name</td><td>age</td></tr>";
+
+                                for (i in arrResult) {
+                                    strTable +=
+                                        "<tr>" +
+                                        "<td>" +
+                                        arrResult[i]["id"] +
+                                        "</td>" +
+                                        "<td>" +
+                                        arrResult[i]["name"] +
+                                        "</td>" +
+                                        "<td>" +
+                                        arrResult[i]["age"] +
+                                        "</td>" +
+                                        "</tr>";
+                                }
+
+                                strTable += "</table>";
+
+                                disp.innerHTML = strTable;
+
+                                db.close();
+                            };
+
+                            results.onerror = function (event) {
+                                console.log("取得エラー");
+                            };
+                        };
+                    } catch (_e) {}
+                };
+
+                eRegister.onclick = function () {
+                    var eId = window.document.getElementById("_rec_data_id_");
+
+                    var eName = window.document.getElementById(
+                        "_rec_data_name_"
+                    );
+
+                    var eAge = window.document.getElementById("_rec_data_age_");
+
+                    var obj = {
+                        id: parseInt(eId.value),
+                        name: eName.value,
+                        age: parseInt(eAge.value),
+                    };
+
+                    try {
+                        var req = window.indexedDB.open(dbName);
+
+                        req.onupgradeneeded = function (_event) {
+                            init_db(_event);
+                            console.log("-1-");
+                        };
+
+                        req.onsuccess = function (event) {
+                            var db = event.target.result;
+
+                            var trs = db.transaction(storeName, "readwrite");
+
+                            var store = trs.objectStore(storeName);
+
+                            put_result = store.put(obj);
+
+                            put_result.onsuccess = function () {
+                                console.log(
+                                    "データ記録成功。db version=" +
+                                        event.target.result.version +
+                                        ")"
+                                );
+                            };
+
+                            put_result.onerror = function () {
+                                window.alert("データの記録に失敗しました。");
+                            };
+
+                            db.close();
+                        };
+                    } catch (_e) {}
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <h1>Indexed Database API</h1>
+
+        <button id="_create_">database 生成</button>
+
+        <button id="_delete_">delete database.</button>
+
+        <hr />
+
+        <p>空の判定処理をしてないので、デフォルト値入れておきました。</p>
+
+        ID: <input type="number" id="_rec_data_id_" value="4" />
+
+        名前:<input type="text" id="_rec_data_name_" value="大国主命" />
+
+        年齢:<input type="number" id="_rec_data_age_" value="2939" />
+
+        <button id="_resister_">記録</button>
+
+        <hr />
+
+        <button id="_openBtn_">database内容の取得</button><br />
+
+        <br />
+
+        <div id="_disp_">情報表示。</div>
+
+        <hr />
+    </body>
+</html>

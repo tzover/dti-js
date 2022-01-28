@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>function/onclick</title>
+
+        <script>
+            var click_button = function () {
+                window.alert("pushed button");
+
+                console.log("クリック");
+            };
+
+            window.onload = function () {
+                var btn = document.getElementById("Button_01");
+
+                btn.onclick = click_button;
+
+                //document.getElementById("Button_01").onclick = click_button ;
+            };
+        </script>
+    </head>
+
+    <body>
+        <p>下のボタンを押してください</p>
+
+        <button id="Button_01">ボタン</button>
+    </body>
+</html>

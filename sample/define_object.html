@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>define object</title>
+
+        <script>
+            doc = document;
+
+            window.onload = function () {
+                doc.getElementById("id_Button").onclick = function () {
+                    var obj = {
+                        consumption_tax: function (_source) {
+                            return Math.floor(_source * 1.1);
+                        },
+
+                        header: "税込み:",
+
+                        footer: "円",
+
+                        view_consumption_tax: function (_source) {
+                            return (
+                                this.header +
+                                String(this.consumption_tax(_source)) +
+                                this.footer
+                            );
+                        },
+                    };
+
+                    var price = Number(doc.getElementById("id_Price").value);
+
+                    doc.getElementById(
+                        "id_Text_Jp"
+                    ).value = obj.view_consumption_tax(price);
+
+                    obj.header = " ";
+
+                    obj.footer = " tax incl.";
+
+                    doc.getElementById(
+                        "id_Text_En"
+                    ).value = obj.view_consumption_tax(price);
+                };
+            };
+        </script>
+    </head>
+
+    <body>
+        <form>
+            <input type="number" id="id_Price" value="1000" />円
+
+            <input type="button" id="id_Button" value="税(計算)" /> <br />
+
+            <input type="text" id="id_Text_Jp" value="ここに結果がでます。" />
+
+            <input type="text" id="id_Text_En" value="ここに結果がでます。" />
+        </form>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>access</title>
+    </head>
+    <script>
+        window.onload = function () {
+            console.log(window.performance.navigation);
+            console.log(window.performance.timing);
+
+            let eDisp = window.document.getElementById("_disp_");
+            let text = "<h2>";
+
+            switch (window.performance.navigation.type) {
+                case 0:
+                    text += "リンクやURLによるアクセス";
+                    break;
+                case 1:
+                    text += "再読込によるアクセス";
+                    break;
+                case 2:
+                    text += "【戻る】/【進む】ボタンによるアクセス";
+                    break;
+                default:
+                    text += "その他の方法によるアクセス";
+                    break;
+            }
+            text += "</h2>";
+            eDisp.innerHTML = text;
+        };
+    </script>
+    <body>
+        <div id="_disp_"></div>
+        <a href="./">local</a> warning <br />
+    </body>
+</html>
